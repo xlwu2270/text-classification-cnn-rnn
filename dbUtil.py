@@ -100,7 +100,7 @@ def main():
     cnn_model = CnnModel()
     sqlConn = CorpusSQL(host, user, password, db)
     eventList = sqlConn.selectDistinctEvents()
-    for eventExample in [eventList[11], eventList[19]]:
+    for eventExample in eventList:
         eventCorpora = sqlConn.selectWeiboOriginByEvent(eventExample)
         eventLen = len(eventCorpora)
         print("EVENT [%s] Contains %s ITEMS" % (eventExample, eventLen))
