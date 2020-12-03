@@ -13,16 +13,17 @@ import tensorflow as tf
 from sklearn import metrics
 
 from cnn_model import TCNNConfig, TextCNN
-from data.cnews_loader import read_vocab, read_category, batch_iter, process_file, build_vocab
+from data.proj4_loader import read_vocab, read_category, batch_iter, process_file, build_vocab
 
-base_dir = 'data/cnews'
-train_dir = os.path.join(base_dir, 'cnews.train.txt')
-test_dir = os.path.join(base_dir, 'cnews.test.txt')
-val_dir = os.path.join(base_dir, 'cnews.val.txt')
-vocab_dir = os.path.join(base_dir, 'cnews.vocab.txt')
+# base_dir = 'data/cnews'
+base_dir = 'data\\Corpus_15Cats'
+train_dir = os.path.join(base_dir, 'corpus.train')
+val_dir = os.path.join(base_dir, 'corpus.val')
+vocab_dir = os.path.join(base_dir, 'corpus.vocab\\vocab.txt')
 
 save_dir = 'checkpoints/textcnn'
-save_path = os.path.join(save_dir, 'best_validation')  # 最佳验证结果保存路径
+# 最佳验证结果保存路径
+save_path = os.path.join(save_dir, 'best_validation')
 
 
 def get_time_dif(start_time):
@@ -188,7 +189,8 @@ if __name__ == '__main__':
 
     print('Configuring CNN model...')
     config = TCNNConfig()
-    if not os.path.exists(vocab_dir):  # 如果不存在词汇表，重建
+    # 如果不存在词汇表，重建
+    if not os.path.exists(vocab_dir):
         build_vocab(train_dir, vocab_dir, config.vocab_size)
     categories, cat_to_id = read_category()
     words, word_to_id = read_vocab(vocab_dir)

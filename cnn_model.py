@@ -8,10 +8,10 @@ class TCNNConfig(object):
 
     embedding_dim = 64  # 词向量维度
     seq_length = 600  # 序列长度
-    num_classes = 10  # 类别数
+    num_classes = 15  # 类别数
     num_filters = 256  # 卷积核数目
     kernel_size = 5  # 卷积核尺寸
-    vocab_size = 5000  # 词汇表达小
+    vocab_size = 5000  # 词汇表大小
 
     hidden_dim = 128  # 全连接层神经元
 
@@ -41,9 +41,9 @@ class TextCNN(object):
     def cnn(self):
         """CNN模型"""
         # 词向量映射
-        with tf.device('/cpu:0'):
-            embedding = tf.get_variable('embedding', [self.config.vocab_size, self.config.embedding_dim])
-            embedding_inputs = tf.nn.embedding_lookup(embedding, self.input_x)
+        # with tf.device('/cpu:0'):
+        embedding = tf.get_variable('embedding', [self.config.vocab_size, self.config.embedding_dim])
+        embedding_inputs = tf.nn.embedding_lookup(embedding, self.input_x)
 
         with tf.name_scope("cnn"):
             # CNN layer

@@ -14,7 +14,7 @@ CNN做句子分类的论文可以参看: [Convolutional Neural Networks for Sent
 
 ## 环境
 
-- Python 2/3 (感谢[howie.hu](https://github.com/howie6879)调试Python2环境)
+- Python 2/3 ( 感谢[howie.hu](https://github.com/howie6879)调试Python2环境) ）
 - TensorFlow 1.3以上
 - numpy
 - scikit-learn
