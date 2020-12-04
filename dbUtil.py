@@ -31,7 +31,7 @@ class CorpusSQL:
     def selectWeiboOriginByEvent(self, eventName):
         sqlStr = """
         SELECT `rowkey`, `id`, `content`, `event` FROM weibo_origin WHERE
-        ISNULL(`type`) AND `event` = %s
+        `event` = %s
         """
         with self.mysqlConn.cursor() as cs:
             try:
@@ -53,7 +53,6 @@ class CorpusSQL:
             try:
                 cs.executemany(sqlStr, fieldList)
                 self.mysqlConn.commit()
-                # print("%s UPDATE SUCCESS!" % args[2])
             except Exception as e:
                 print(e)
                 self.mysqlConn.rollback()
@@ -64,13 +63,11 @@ class CorpusSQL:
 
 def corpusPredictSinglePiece(model, rowkey, corpusContent):
     probabilities, label = model.predict(corpusContent)
-    # print("Processing ROWKEY: [%s]" % str(rowkeys))
     return probabilities, label
 
 
 def corpusPredict(model, rowkeys, corpusContents):
     probabilities, label = model.predictBatch(corpusContents)
-    # print("Processing ROWKEY: [%s]" % str(rowkeys))
     return probabilities, label
 
 
@@ -79,7 +76,6 @@ def batchUpdate(sqlConn, updateFields):
     对数据库进行批处理更新，加快更新速度，批处理大小自由
     或者是BATCH_SIZE，或者是剩余的余数大小
     """
-    print("=" * 100 + "\n\t\t\t\t\tUPDATE\n" + "=" * 100)
     sqlConn.update(updateFields)
 
 
@@ -129,7 +125,7 @@ def main():
             probsList, labels = corpusPredict(cnn_model, rowkeys, contents)
             for probs, label, rowkey in zip(probsList, labels, rowkeys):
                 # ndArray数组维度为2，去掉最外层中括号
-                probDistribution = probs.tolist()[0]
+                probDistribution = probs.tolist()
                 updateFields.append((label, str(probDistribution), rowkey))
             batchUpdate(sqlConn, updateFields)
 
